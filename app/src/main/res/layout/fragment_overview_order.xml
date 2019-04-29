@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="376dp"
+    android:layout_height="251dp"
+    tools:context=".overviewOrder"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    android:gravity="center">
+
+    <!-- TODO: Update blank fragment layout -->
+   <!-- <TextView
+        android:id="@+id/textView"
+        android:layout_width="403dp"
+        android:layout_height="134dp"
+        android:text="Current Order"
+        android:textColor="#500"
+        android:textSize="20sp"
+        android:gravity="top|center"/>-->
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="215dp"
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:text="Submit Order" />
+
+    <TextView
+        android:id="@+id/order1"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+
+    <Button
+        android:id="@+id/removeItem"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="60dp"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:gravity="center"
+        android:text="Remove Last Item" />
+
+</FrameLayout>

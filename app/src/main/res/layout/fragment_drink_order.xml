@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".drinkOrder"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    android:gravity="center">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    <RadioGroup
+        android:id="@+id/drinks"
+        android:layout_width="266dp"
+        android:layout_height="134dp"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+
+        <RadioButton
+            android:id="@+id/coffee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Coffee"/>
+
+
+        <RadioButton
+            android:id="@+id/coke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Coke"/>
+
+
+        <RadioButton
+            android:id="@+id/tea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tea"/>
+
+        <RadioButton
+            android:id="@+id/water"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Water"/>
+
+    </RadioGroup>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/drinks"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="8dp"/>
+
+</FrameLayout>
