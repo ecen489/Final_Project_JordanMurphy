@@ -22,7 +22,7 @@
         android:id="@+id/submit"
         android:layout_width="100dp"
         android:layout_height="75dp"
-        android:layout_marginLeft="215dp"
+        android:layout_marginLeft="140dp"
         android:layout_marginTop="150dp"
         android:gravity="center"
         android:text="Submit Order" />
@@ -38,11 +38,20 @@
 
     <Button
         android:id="@+id/removeItem"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="60dp"
         android:layout_width="100dp"
         android:layout_height="75dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="150dp"
         android:gravity="center"
         android:text="Remove Last Item" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="150dp"
+        android:layout_weight="2"
+        android:text="Sign Out" />
 
 </FrameLayout>

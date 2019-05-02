@@ -1,12 +1,18 @@
 package com.example.mini_project1_jordan_murphy;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +20,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -39,9 +52,22 @@ public class overviewOrder extends Fragment {
     String word1;
     int total;
 
+    Activity context;
+
+    FirebaseDatabase fbdb;
+    DatabaseReference dbrf;
+    int dbID = 404;
+    int i = 0;
+    String order_id;
+
+    FirebaseAuth mAuth;
+    FirebaseUser user = null;
+
     private ArrayList<String> items;
 
     private OnFragmentInteractionListener mListener;
+
+    private NotificationCompat.Builder notification_builder;
 
 
     public overviewOrder() {
@@ -70,12 +96,41 @@ public class overviewOrder extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        fbdb = FirebaseDatabase.getInstance();
+        dbrf = fbdb.getReference();
+        mAuth= FirebaseAuth.getInstance();
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        NotificationManager notification_manager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//This portion of the code handles newer APIs
+            String chanel_id = "3000";
+            CharSequence name = "Channel Name";
+            String description = "Chanel Description";
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel mChannel = new NotificationChannel(chanel_id, name, importance);
+            mChannel.setDescription(description);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.BLUE);
+            notification_manager.createNotificationChannel(mChannel);
+            notification_builder = new NotificationCompat.Builder(getActivity(), chanel_id); //maybe not getActivity(), was this
+        } else {
+            notification_builder = new NotificationCompat.Builder(getActivity()); //this code handles older APIs
+        }
+
     }
+
+    /*@Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        user = mAuth.getCurrentUser();
+
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,16 +139,30 @@ public class overviewOrder extends Fragment {
         View view = inflater.inflate(R.layout.fragment_overview_order, container, false);
         Button submission = (Button) view.findViewById(R.id.submit);
         Button remove = (Button) view.findViewById(R.id.removeItem);
+        Button logout = (Button) view.findViewById(R.id.logout);
         order1 = (TextView)getActivity().findViewById(R.id.order1);
         items = new ArrayList<String>();
 
         Intent intent = getActivity().getIntent();
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                user =null;
+                Toast.makeText(getActivity(),"Logged Out",Toast.LENGTH_SHORT).show();
+                Intent backIntent = new Intent(v.getContext(), MainActivity.class);
+                backIntent.putExtra("total", total);
+                getActivity().setResult(Activity.RESULT_OK,backIntent);
+                getActivity().finish();
+            }
+        });
+
         submission.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
-                Intent backIntent = new Intent();
+                Intent backIntent = new Intent(v.getContext(), MainActivity.class);
                 //startActivity(backIntent);
                 //backIntent.putExtra("answer", "1");
                 MediaPlayer mp = MediaPlayer.create(getContext(),R.raw.cashregister);
@@ -102,6 +171,63 @@ public class overviewOrder extends Fragment {
                 getActivity().setResult(Activity.RESULT_OK,backIntent);
                 getActivity().finish();
                 mp.start();
+
+                user = mAuth.getCurrentUser();
+
+
+                if (user != null) {
+                    /*EditText courseID = findViewById(R.id.ID);
+                    String pass = courseID.getText().toString();
+                    courseID.getText().clear();
+
+                    EditText courseName = findViewById(R.id.name);
+                    String pass1 = courseName.getText().toString();
+                    courseName.getText().clear();
+
+                    EditText courseGrade = findViewById(R.id.grade);
+                    String pass2 = courseGrade.getText().toString();
+                    courseGrade.getText().clear();*/
+
+                    Random rand = new Random();
+                    order_id = String.valueOf(rand.nextInt(1000));
+
+                    Log.d("USER", user.toString().substring(34));
+                    /*DatabaseReference passID = dbrf.child("simpsons/grades/" + grade_id + "/course_id");
+                    passID.setValue(Integer.parseInt(pass));
+
+                    DatabaseReference passName = dbrf.child("simpsons/grades/" + grade_id + "/course_name");
+                    passName.setValue(pass1);
+
+                    DatabaseReference passGrade = dbrf.child("simpsons/grades/" + grade_id + "/grade");
+                    passGrade.setValue(pass2);*/
+
+                    for (int i = 0; i < items.size(); ++i) {
+
+                        DatabaseReference passStudentID = dbrf.child("users/" + user.toString().substring(34) + "/orders/" + order_id + "/item" + i);
+                        //DatabaseReference passStudentID = dbrf.child("users/" + user.toString().substring(34) + "/orders/item" + i);
+                        passStudentID.setValue(items.get(i));
+
+                    }
+
+                }
+                else {
+
+                    Toast.makeText(getActivity(),"Something went wrong",Toast.LENGTH_SHORT).show();
+
+                }
+
+                //String mesg = intent.getStringExtra("key1");
+                //Toast.makeText(OrderActivity.this, mesg, Toast.LENGTH_SHORT).show();
+
+                //Build a notification with the same information, and show it.
+                notification_builder.setSmallIcon(R.drawable.baseline_notification)
+                        .setContentTitle("IMPORTANT NOTICE")
+                        .setContentText("Your order is on it's way!!!")
+                        .setAutoCancel(true);
+
+                Notification notification = notification_builder.build();
+                NotificationManager manager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+                manager.notify(1, notification);
             }
         });
 
@@ -248,4 +374,17 @@ public class overviewOrder extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    /*public void LogoutClick(View view) {
+        mAuth.signOut();
+        user =null;
+        //Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(context, MainActivity.class));
+        //Intent backIntent = new Intent();
+        //startActivity(backIntent);
+        //backIntent.putExtra("answer", "1");
+        //backIntent.putExtra("total", total);
+        //getActivity().setResult(Activity.RESULT_OK,backIntent);
+        //getActivity().finish();
+    }*/
 }

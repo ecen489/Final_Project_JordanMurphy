@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1012181762062",
+    "firebase_url": "https://final-project-jordanmurphy.firebaseio.com",
+    "project_id": "final-project-jordanmurphy",
+    "storage_bucket": "final-project-jordanmurphy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012181762062:android:0687c53533c8c0e0",
+        "android_client_info": {
+          "package_name": "com.example.mini_project1_jordan_murphy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012181762062-3aqpekbo9jh1v5jhhueeqs7vek2guv32.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mini_project1_jordan_murphy",
+            "certificate_hash": "5a75d6989b1e5200e487b169ea9adb546e8ca906"
+          }
+        },
+        {
+          "client_id": "1012181762062-veh4td6uopji5urchkol9vef25647dve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAz_FRYhC1g0nO0I1w4s598LmZwrufpYHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012181762062-veh4td6uopji5urchkol9vef25647dve.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
